@@ -28,9 +28,10 @@ ROW_DUR = 0.55  # seconds for one row to type
 DISPLAY_W = 460
 
 # crop box as fractions of the photo: top of hair to the collar
-CROP = (0.17, 0.10, 0.83, 0.72)  # left, top, right, bottom
-GAMMA = 1.3  # the guide uses 1.7; this front-lit photo loses the eyes past ~1.4
+CROP = (0.24, 0.12, 0.76, 0.70)  # left, top, right, bottom
+GAMMA = 1.5  # the guide uses 1.7; past ~1.6 the face merges with the hair
 CLAHE_CLIP = 2.5
+DARK_GAMMA = 1.0  # 1.5 left the face dim; 1/1.5 washed it out
 
 
 def cutout(photo: Path) -> Image.Image:
@@ -44,7 +45,9 @@ def cutout(photo: Path) -> Image.Image:
     return img
 
 
-def to_ascii(photo: Path) -> list[str]:
+def to_ascii(photo: Path, theme: str = "light") -> list[str]:
+    """Dense characters mark dark areas on a light page and bright areas on a dark one,
+    so the dark-theme portrait is a positive, not a negative. The background stays blank."""
     rgba = np.array(cutout(photo).convert("RGBA"))
     h, w = rgba.shape[:2]
     l, t, r, b = CROP
@@ -54,13 +57,15 @@ def to_ascii(photo: Path) -> list[str]:
 
     gray = cv2.bilateralFilter(gray, 9, 40, 9)
     gray = cv2.createCLAHE(clipLimit=CLAHE_CLIP, tileGridSize=(8, 8)).apply(gray)
-    v = (gray.astype(np.float32) / 255) ** GAMMA
-    v = v * alpha + (1 - alpha)  # background forced to white
-
+    # on a dark page the dense end marks highlights; the light-page curve would dim the face there
+    v = (gray.astype(np.float32) / 255) ** (GAMMA if theme == "light" else DARK_GAMMA)
     ch, cw = v.shape
     rows = round(COLS * (ch / cw) * 0.48)
     small = cv2.resize(v, (COLS, rows), interpolation=cv2.INTER_AREA)
-    idx = np.clip(np.rint((1 - small) * (len(RAMP) - 1)), 0, len(RAMP) - 1).astype(int)
+    mask = cv2.resize(alpha, (COLS, rows), interpolation=cv2.INTER_AREA)
+    ink = (1 - small) if theme == "light" else small
+    ink = ink * mask  # background forced to blank
+    idx = np.clip(np.rint(ink * (len(RAMP) - 1)), 0, len(RAMP) - 1).astype(int)
     lines = ["".join(RAMP[i] for i in row).rstrip() for row in idx]
     while lines and not lines[0]:
         lines.pop(0)
@@ -133,11 +138,11 @@ def preview(lines: list[str]) -> None:
 
 
 def main() -> None:
-    lines = to_ascii(ROOT / "src" / "photo.jpg")
     for theme in THEMES:
+        lines = to_ascii(ROOT / "src" / "photo.jpg", theme)
         (ROOT / "assets" / f"portrait-{theme}.svg").write_text(svg(lines, theme))
     if "--preview" in sys.argv:
-        preview(lines)
+        preview(to_ascii(ROOT / "src" / "photo.jpg"))
     print(f"{len(lines)} rows x {COLS} cols")
 
 
