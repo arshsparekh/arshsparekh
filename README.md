@@ -5,9 +5,6 @@
 </picture>
 </p>
 
-> Arsh Parekh. Princeton.<br>
-> TigerApps Software Engineer, GovTech Enthusiast.
-
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="assets/hd-projects-dark.svg">
   <img src="assets/hd-projects-light.svg" alt="Projects">
