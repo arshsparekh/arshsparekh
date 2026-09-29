@@ -6,7 +6,7 @@
 </p>
 
 > Arsh Parekh. Princeton.<br>
-> I build software for public problems.
+> TigerApps Software Engineer, GovTech Enthusiast.
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="assets/hd-projects-dark.svg">
@@ -14,15 +14,15 @@
 </picture>
 
 **[Patchr](https://github.com/arshsparekh/Patchr-Fixing-New-Jersey-s-Roads)**<br>
-Fixing New Jersey's roads.<br>
+A tool that streamlines road & facility issues and New Jersey's government response.<br>
 <samp>typescript · postgres</samp>
 
 **[HoagieFunctions](https://github.com/arshsparekh/hoagiefunctions)**<br>
-A prototype for Princeton's Hoagie.<br>
+A prototype for a new social-scene website at Princeton.<br>
 <samp>typescript · postgres</samp>
 
-**[SecondEye](https://github.com/arshsparekh/SecondEye)**<br>
-A demo.<br>
+**[Cisco's SecondEye](https://github.com/arshsparekh/Cisco_SecondEye)**<br>
+A demo pitched to Cisco executives.<br>
 <samp>html</samp>
 
 <picture>
