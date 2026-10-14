@@ -10,6 +10,14 @@
   <img src="assets/hd-projects-light.svg" alt="Projects">
 </picture>
 
+**Stealth startup**<br>
+Currently building in GovTech. Feel free to reach out :)<br>
+<samp>govtech · in stealth</samp>
+
+**Stealth startup**<br>
+Partnered with the White House to bring local government information to the public.<br>
+<samp>govtech · past</samp>
+
 **[Patchr](https://github.com/arshsparekh/Patchr-Fixing-New-Jersey-s-Roads)**<br>
 A tool that streamlines road & facility issues and New Jersey's government response.<br>
 <samp>typescript · postgres</samp>
@@ -17,10 +25,6 @@ A tool that streamlines road & facility issues and New Jersey's government respo
 **[HoagieFunctions](https://github.com/arshsparekh/hoagiefunctions)**<br>
 A prototype for a new social-scene website at Princeton.<br>
 <samp>typescript · postgres</samp>
-
-**[Cisco's SecondEye](https://github.com/arshsparekh/Cisco_SecondEye)**<br>
-A demo pitched to Cisco executives.<br>
-<samp>html</samp>
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="assets/hd-activity-dark.svg">
