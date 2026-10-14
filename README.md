@@ -10,11 +10,11 @@
   <img src="assets/hd-projects-light.svg" alt="Projects">
 </picture>
 
-**Stealth startup**<br>
+**Stealth Startup**<br>
 Currently building in GovTech. Feel free to reach out :)<br>
 <samp>govtech · in stealth</samp>
 
-**Stealth startup**<br>
+**Stealth Startup**<br>
 Partnered with the White House to bring local government information to the public.<br>
 <samp>govtech · past</samp>
 
