@@ -195,13 +195,21 @@ def year_svg(days: list[tuple[date, int]], c: dict) -> str:
     out = [head(h, "Contributions per day over the last year", c, f".z{{fill:{c['rule']}}}.k{{fill:{c['accent']}}}")]
     for r, name in ((1, "Mon"), (3, "Wed"), (5, "Fri")):
         out.append(f'<text class="m" x="0" y="{top + r * lh + 11}" style="font-size:11px">{name}</text>')
-    last_month = None
+    # a month is labelled at its first column; a label too close to the next one is dropped
+    # (the window's partial first month, or a month cut off at the right edge)
+    labels: list[tuple[int, int]] = []
+    for i, (d, _) in enumerate(days):
+        col, row = divmod(offset + i, 7)
+        if row <= 1 and (not labels or labels[-1][1] != d.month):
+            labels.append((col, d.month))
+    gap = 3  # columns; a three-letter label is about 2.5 columns wide
+    edges = [c for c, _ in labels[1:]] + [ncols + gap - 1]
+    for (col, month), nxt in zip(labels, edges):
+        if nxt - col >= gap:
+            out.append(f'<text class="m" x="{left + col * cw:.1f}" y="12" style="font-size:11px">{MONTHS[month - 1]}</text>')
     for i, (d, n) in enumerate(days):
         col, row = divmod(offset + i, 7)
         x, y = left + col * cw, top + row * lh + 11
-        if d.month != last_month and row <= 1 and col < ncols - 2:
-            out.append(f'<text class="m" x="{x:.1f}" y="12" style="font-size:11px">{MONTHS[d.month - 1]}</text>')
-            last_month = d.month
         ch = char(n)
         out.append(f'<text class="{"z" if not n else "k"}" x="{x:.1f}" y="{y}">{ch}</text>')
     out.append("</svg>")
